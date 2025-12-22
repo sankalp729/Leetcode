@@ -1,34 +1,26 @@
 class MedianFinder {
-    
-    PriorityQueue<Integer> smallHeap;
-    PriorityQueue<Integer> largeHeap;
+
+    PriorityQueue<Integer> smol; 
+    PriorityQueue<Integer> large;
     
     public MedianFinder() {
-        smallHeap = new PriorityQueue<>((x, y) -> Integer.compare(y, x));
-        largeHeap = new PriorityQueue<>();
+        smol = new PriorityQueue<>((x, y) -> Integer.compare(y, x));
+        large = new PriorityQueue<>();
     }
     
     public void addNum(int num) {
-        // step 1 : blindly add to small :  
-        smallHeap.add(num);
-        
-        // step 2 : move to large :
-        largeHeap.add(smallHeap.poll());
-
-        //step 3 : move back :
-        if(largeHeap.size() > smallHeap.size()){
-            smallHeap.add(largeHeap.poll());
+        smol.add(num);
+        large.add(smol.poll());
+        if(smol.size() < large.size()){
+            smol.add(large.poll());
         }
     }
     
     public double findMedian() {
-        if(smallHeap.size() == largeHeap.size()){
-            return (smallHeap.peek() + largeHeap.peek()) / 2.0;
-        }else if(smallHeap.size() > largeHeap.size()){
-            return smallHeap.peek();
-        }else{
-            return largeHeap.peek();
+        if(smol.size() == large.size()){
+            return (smol.peek() + large.peek()) / 2.0;
         }
+        return smol.peek();
     }
 }
 
