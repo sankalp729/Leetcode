@@ -3,15 +3,15 @@ class Twitter {
     int time = 0;
 
     class Tweet{
-        int id;
+        int tweetId;
         int time;
         Tweet next;
-        Tweet(int id, int time){
-            this.id = id;
+
+        Tweet(int tweetId, int time){
+            this.tweetId = tweetId;
             this.time = time;
         }
     }
-
     class User{
         int userId;
         Set<Integer> followed;
@@ -22,48 +22,51 @@ class Twitter {
             followed = new HashSet<>();
             follow(userId); // self follow
         }
-        void follow(int followId){
-            followed.add(followId);
+
+        void follow(int userId){
+            followed.add(userId);
         }
-        void unfollow(int followId){
-            followed.remove(followId);
+        void unfollow(int userId){
+            followed.remove(userId);
         }
         void post(int tweetId){
             Tweet t = new Tweet(tweetId, time++);
             t.next = tweetHead;
-            tweetHead = t;
+            tweetHead = t;                
         }
-    }
-
-    Map<Integer, User> userMap;
-
-    public Twitter() {
-        userMap = new HashMap<>();
     }
     
-    public User getUser(int userId){
-        if(!userMap.containsKey(userId)){
-            userMap.put(userId, new User(userId));
+    HashMap<Integer, User> map;
+    
+    private User getUser(int userId){
+        if(!map.containsKey(userId)){
+            map.put(userId, new User(userId));
         }
-        return userMap.get(userId);
+        return map.get(userId);
     }
 
+    public Twitter() {
+        map = new HashMap<>();
+    }
+    
     public void postTweet(int userId, int tweetId) {
         getUser(userId).post(tweetId);
     }
     
     public List<Integer> getNewsFeed(int userId) {
         List<Integer> res = new ArrayList<>();
-        if(!userMap.containsKey(userId)) return res;
+        
+        if(!map.containsKey(userId)) return res;
 
-        PriorityQueue<Tweet> pq = new PriorityQueue<>((x,y) -> Integer.compare(y.time, x.time));
-        for(int followee : getUser(userId).followed){
-            Tweet t = getUser(followee).tweetHead;
+        PriorityQueue<Tweet> pq = new PriorityQueue<>((x, y) -> Integer.compare(y.time, x.time));
+        
+        for(int followeeId : getUser(userId).followed){
+            Tweet t = getUser(followeeId).tweetHead;
             if(t != null) pq.add(t);
         }
         while(!pq.isEmpty() && res.size() < 10){
             Tweet t = pq.poll();
-            res.add(t.id);
+            res.add(t.tweetId);
             if(t.next != null) pq.add(t.next);
         }
         return res;
