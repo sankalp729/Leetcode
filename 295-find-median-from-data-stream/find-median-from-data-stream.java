@@ -1,26 +1,20 @@
 class MedianFinder {
-
-    PriorityQueue<Integer> smol; 
+    PriorityQueue<Integer> small;
     PriorityQueue<Integer> large;
-    
     public MedianFinder() {
-        smol = new PriorityQueue<>((x, y) -> Integer.compare(y, x));
+        small = new PriorityQueue<>((x, y) -> Integer.compare(y, x));
         large = new PriorityQueue<>();
     }
     
     public void addNum(int num) {
-        smol.add(num);
-        large.add(smol.poll());
-        if(smol.size() < large.size()){
-            smol.add(large.poll());
-        }
+        small.add(num);
+        large.add(small.poll());
+        if(large.size() > small.size()) small.add(large.poll());
     }
     
     public double findMedian() {
-        if(smol.size() == large.size()){
-            return (smol.peek() + large.peek()) / 2.0;
-        }
-        return smol.peek();
+        if(small.size() == large.size()) return (small.peek() + large.peek()) / 2.0;
+        else return small.peek();
     }
 }
 
