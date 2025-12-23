@@ -6,14 +6,13 @@ class Solution {
             x = 1/x;
         }
         double ans = 1;
-        while(m>0){
+        while(m > 0){
             if(m%2 == 0){
-                m = m/2;
                 x = x*x;
-            }
-            else{
-                ans = ans*x;
+                m = m/2;
+            }else{
                 m = m-1;
+                ans = ans*x;
             }
         }
         return ans;
