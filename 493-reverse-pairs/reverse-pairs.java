@@ -1,5 +1,5 @@
 class Solution {
-    void merge(int[] arr, int l, int mid, int r){
+     void merge(int[] arr, int l, int mid, int r){
         int low = l, high = mid+1;
         ArrayList<Integer> list = new ArrayList<>();
         while(low<=mid && high<=r){
@@ -23,12 +23,12 @@ class Solution {
             arr[i+l] = list.get(i);
         }
     }
-    int cntPairs(int[] arr, int low, int mid, int high){
-        int cnt = 0;
+    int cntPairs(int[] arr, int l, int mid, int r){
         int right = mid+1;
-        for(int i = low; i<=mid; i++){
-            while(right<=high && arr[i] > 2L*arr[right]) right++;
-            cnt+= right-(mid+1);
+        int cnt = 0;
+        for(int i =l; i<=mid; i++){
+            while(right<=r && arr[i] > 2L*arr[right]) right++;
+            cnt+= right-mid-1;
         }
         return cnt;
     }
@@ -44,6 +44,6 @@ class Solution {
         return cnt;
     }
     public int reversePairs(int[] nums) {
-        return mergeSort(nums, 0, nums.length - 1);
+        return mergeSort(nums, 0, nums.length-1);
     }
 }
