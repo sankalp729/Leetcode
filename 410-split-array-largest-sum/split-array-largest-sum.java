@@ -1,6 +1,6 @@
 class Solution {
     public int isPossible(int[] nums, int k, int mid){
-        int students = 0, pages = mid;
+        int students = 1, pages = mid;
         for(int i=0; i<nums.length; i++){
             if(pages>=nums[i]) pages-= nums[i];
             else{
@@ -19,7 +19,7 @@ class Solution {
         }
         while(low<=high){
             int mid = (low + high)/2;
-            if(isPossible(nums, k, mid) < k){
+            if(isPossible(nums, k, mid) <= k){
                 high = mid-1;
             }else{
                 low = mid+1;
