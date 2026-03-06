@@ -1,9 +1,8 @@
 class Solution {
     public List<Integer> majorityElement(int[] nums) {
-        // so this is majority element 2!
         List<Integer> ans = new ArrayList<>();
+        int cnt1 =0, cnt2 = 0;
         int el1 = Integer.MIN_VALUE, el2 = Integer.MIN_VALUE;
-        int cnt1 = 0, cnt2 = 0;
         for(int i=0; i<nums.length; i++){
             if(nums[i] != el2 && cnt1 == 0){
                 el1 = nums[i];
