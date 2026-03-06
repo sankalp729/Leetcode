@@ -1,20 +1,20 @@
 class Solution {
     public List<List<Integer>> generate(int numRows) {
-        List<List<Integer>> list = new ArrayList<>();
-        for(int i = 1; i<=numRows; i++){
-            printN(i, list);
+        List<List<Integer>> ans = new ArrayList<>();
+        for(int i=1; i<=numRows; i++){
+            ans.add(rows(i));
         }
-        return list;
+        return ans;
     }
-    public void printN(int n, List<List<Integer>> list){
+    public List<Integer> rows(int n){
+        List<Integer> row = new ArrayList<>();
         int ans = 1;
-        List<Integer> temp = new ArrayList<>();
-        temp.add(ans);    
-        for(int i = 1; i<n; i++){
+        row.add(ans);
+        for(int i=1; i<n; i++){
             ans = ans*(n-i);
-            ans = ans/i;
-            temp.add(ans);
+            ans = ans/(i);
+            row.add(ans);
         }
-        list.add(temp);
+        return row;
     }
 }
