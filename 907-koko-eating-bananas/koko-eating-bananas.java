@@ -2,7 +2,8 @@ class Solution {
     public long isPossible(int[] piles, int h, int mid){
         long sum = 0;
         for(int i =0; i<piles.length; i++){
-            sum+= (long)(piles[i] + mid - 1)/ mid;
+            sum+= (piles[i] + mid - 1)/ mid;
+            if(sum > h) return sum;
         }
         return sum;
     }
