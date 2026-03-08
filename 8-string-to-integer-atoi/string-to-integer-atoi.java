@@ -1,34 +1,23 @@
 class Solution {
     public int myAtoi(String s) {
-        if(s.length() == 0) return 0;
-
-        int idx = 0;
-        while(idx < s.length() && s.charAt(idx) == ' '){
-            idx++;
-        }
-
+        int i =0;
         int sign = 1;
-        if(idx < s.length()){
-            if(s.charAt(idx) == '-'){
-                sign = -1;
-                idx++;
-            }
-            else if(s.charAt(idx) == '+'){
-                sign = 1;
-                idx++;
-            }
+        long res = 0;
+        while(i<s.length() && s.charAt(i) == ' ') i++;
+        if(i<s.length() && s.charAt(i) == '-'){
+            sign = -1;
+            i++;
         }
-        return parse(s, 0, idx, sign);
-    }
-    public int parse(String s, long num, int idx, int sign){
-        if(idx >= s.length() || !Character.isDigit(s.charAt(idx))) return (int) (sign*num);
-        num = num*10 + (s.charAt(idx) - '0');
-        if(sign == 1 && num > Integer.MAX_VALUE){
-            return Integer.MAX_VALUE;
+        else if(i<s.length() && s.charAt(i) == '+'){
+            sign = 1;
+            i++;
         }
-        if(sign == -1 && -num < Integer.MIN_VALUE){
-            return Integer.MIN_VALUE;
+        while(i<s.length() && Character.isDigit(s.charAt(i))){
+            int digit = s.charAt(i) - '0';
+            if(res>Integer.MAX_VALUE/10 || res == Integer.MAX_VALUE/10 && digit > (sign == 1 ? 7 : 8)) return sign==1 ? Integer.MAX_VALUE: Integer.MIN_VALUE;
+            res = res*10 + digit;
+            i++;
         }
-        return parse(s, num, idx + 1, sign);
+        return (int)(sign*res);
     }
 }
