@@ -27,22 +27,19 @@ class Solution {
         return head;
     }
     public ListNode reverseKGroup(ListNode head, int k) {
-        if(head == null || head.next== null || k == 1) return head;
         ListNode temp= head, prev= null;
         while(temp != null){
             ListNode kth= findKth(temp, k);
             if(kth == null){
-                if(prev != null) prev.next= temp;
+                if(prev != null) prev.next= temp; 
                 break;
             }
             ListNode next= kth.next;
-            kth.next= null;
+            kth.next= null; 
             reverse(temp);
-            if(temp == head){
-                head = kth;
-            }else{
-                prev.next= kth;
-            }
+            if(head == temp){
+                head= kth;
+            }else prev.next= kth;
             prev= temp;
             temp= next;
         }
