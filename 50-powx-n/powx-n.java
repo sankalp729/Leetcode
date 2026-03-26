@@ -5,14 +5,14 @@ class Solution {
             m = -m;
             x = 1/x;
         }
-        double ans = 1;
+        double ans= 1;
         while(m > 0){
             if(m%2 == 0){
                 x = x*x;
                 m = m/2;
             }else{
                 m = m-1;
-                ans = ans*x;
+                ans= ans*x;
             }
         }
         return ans;
