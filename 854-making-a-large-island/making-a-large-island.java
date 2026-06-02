@@ -29,9 +29,9 @@ class DisjointSet{
 class Solution {
     public int largestIsland(int[][] grid) {
         int n= grid.length;
-        int[] drow= {-1, 0, 1, 0};
-        int[] dcol= {0, 1, 0, -1};
         DisjointSet ds= new DisjointSet(n*n);
+        int[] drow= {1, 0, -1, 0};
+        int[] dcol= {0, 1, 0, -1};
         for(int i=0; i<n; i++){
             for(int j=0; j<n; j++){
                 if(grid[i][j] == 1){
@@ -40,7 +40,7 @@ class Solution {
                         int ncol= j+dcol[k];
                         if(nrow>=0 && nrow<n && ncol>=0 && ncol<n && grid[nrow][ncol] == 1){
                             int node= i*n + j;
-                            int adjNode = nrow*n + ncol;
+                            int adjNode= nrow*n + ncol;
                             ds.union(node, adjNode);
                         }
                     }
@@ -61,15 +61,15 @@ class Solution {
                         }
                     }
                 }
-                int sizeTotal= 0;
+                int sizeTotal = 0;
                 for(int it : set){
                     sizeTotal += ds.size.get(it);
                 }
-                mx= Math.max(mx, sizeTotal + 1);
+                mx = Math.max(mx, sizeTotal+1);
             }
         }
         for(int i=0; i<n*n; i++){
-            mx= Math.max(mx, ds.size.get(ds.findUPar(i)));
+            mx = Math.max(mx, ds.size.get(ds.findUPar(i)));
         }
         return mx;
     }
