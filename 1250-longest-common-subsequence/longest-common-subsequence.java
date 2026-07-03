@@ -1,19 +1,29 @@
 class Solution {
-    public int rec(int i1, int i2, String s1, String s2, int[][] dp){
-        if(i1<0 || i2<0) return 0;
-
-        if(dp[i1][i2] != -1) return dp[i1][i2];
-
-        if(s1.charAt(i1) == s2.charAt(i2)) return dp[i1][i2] = 1+rec(i1-1, i2-1, s1, s2, dp);
-        
-        return dp[i1][i2] = Math.max(rec(i1-1, i2, s1, s2, dp), rec(i1, i2-1, s1, s2, dp));
-    }
     public int longestCommonSubsequence(String text1, String text2) {
         int idx1 = text1.length()-1, idx2= text2.length()-1;
         int[][] dp = new int[idx1+1][idx2+1];
-        for(int[] row : dp){
-            Arrays.fill(row, -1);
+        if(text1.charAt(0) == text2.charAt(0)) dp[0][0] = 1;
+        for(int i=1; i<=idx1; i++){
+            if(text1.charAt(i) == text2.charAt(0)){
+                dp[i][0] = 1;
+            }else{
+                dp[i][0] = dp[i-1][0];
+            }
         }
-        return rec(idx1, idx2, text1, text2, dp);
+        for(int i=1; i<=idx2; i++){
+            if(text1.charAt(0) == text2.charAt(i)){
+                dp[0][i] = 1;
+            }else{
+                dp[0][i] = dp[0][i-1];
+            }
+        }
+        for(int i=1; i<=idx1; i++){
+            for(int j=1; j<=idx2; j++){
+                if(text1.charAt(i) == text2.charAt(j)) dp[i][j] = 1+dp[i-1][j-1];
+
+                else dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);
+            }
+        }
+        return dp[idx1][idx2];
     }
 }
