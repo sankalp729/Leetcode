@@ -1,21 +1,22 @@
 class Solution {
-    public List<List<Integer>> subsets(int[] nums) {
-        List<List<Integer>> ans = new ArrayList<>();
-        backtrack(ans, new ArrayList<>(), 0, nums);
-        return ans;
-    }
-    public void backtrack(List<List<Integer>> ans, List<Integer> temp, int idx, int[] nums){
-        if(idx == nums.length){
+    public void rec(int[] nums, int idx, List<Integer> temp, List<List<Integer>> ans, int n){
+        if(idx >= n){
             ans.add(new ArrayList<>(temp));
             return;
         }
-        // choice 1 : do not include
-        backtrack(ans, temp, idx+1, nums);
-        // choice 2 : do include
+        // take :
         temp.add(nums[idx]);
-        backtrack(ans, temp, idx+1, nums);
-
-        // undo the choice means backtrack
+        rec(nums, idx+1, temp, ans, n);
         temp.remove(temp.size() - 1);
+
+        // notTake : 
+        rec(nums, idx+1, temp, ans, n);
+    }
+    public List<List<Integer>> subsets(int[] nums) {
+        int n = nums.length;
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        rec(nums, 0, temp, ans, n);
+        return ans;
     }
 }
