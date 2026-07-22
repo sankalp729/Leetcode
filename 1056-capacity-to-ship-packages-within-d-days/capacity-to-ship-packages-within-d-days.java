@@ -1,29 +1,27 @@
 class Solution {
-    public boolean isPossible(int[] arr, int d, int mid){
-        int curr = 1;
-        int currW = mid;
+    public boolean isPossible(int[] arr, int days, int mid){
+        int cnt = 1, curr=mid;
         for(int i=0; i<arr.length; i++){
-            if(currW>=arr[i]){
-                currW-=arr[i];
-            }else{
-                currW = mid-arr[i];
-                curr++;
+            if(arr[i]<=curr) curr-= arr[i];
+            else{
+                curr = mid-arr[i];
+                cnt++;
             }
-            if(curr>d) return false;
+            if(cnt>days) return false;
         }
-        return curr<=d;
+        return cnt<=days;
     }
     public int shipWithinDays(int[] weights, int days) {
-        int min = Integer.MIN_VALUE, max = 0;
-        for(int i=0; i<weights.length; i++){
-            min = Math.max(min, weights[i]);
-            max += weights[i];
+        int low=Integer.MIN_VALUE, high = 0;
+        for(int el : weights){
+            low = Math.max(low, el);
+            high+= el;
         }
-        while(min<=max){
-            int mid = (min+max)/2;
-            if(isPossible(weights, days, mid)) max = mid-1; 
-            else min = mid+1;
+        while(low<=high){
+            int mid=(low+high)/2;
+            if(isPossible(weights, days, mid)) high = mid-1;
+            else low = mid+1;
         }
-        return min;
+        return low;
     }
 }
