@@ -1,29 +1,27 @@
 class Solution {
-    public int isPossible(int[] nums, int k, int mid){
-        int students = 1, pages = mid;
+    public boolean isPossible(int[] nums, int k, int mid){
+        int cnt = 1;
+        int curr = mid;
         for(int i=0; i<nums.length; i++){
-            if(pages>=nums[i]) pages-= nums[i];
+            if(curr>=nums[i]) curr-=nums[i];
             else{
-                students++;
-                pages = mid-nums[i];
+                curr = mid-nums[i];
+                cnt++;
             }
+            if(cnt>k) return false;
         }
-        return students;
+        return cnt<=k;
     }
     public int splitArray(int[] nums, int k) {
-        if(k>nums.length) return -1;
-        int low = Integer.MIN_VALUE, high = 0;
-        for(int i : nums){
-            low = Math.max(low, i);
-            high+= i;
+        int low = Integer.MIN_VALUE, high = 0, n=nums.length;
+        for(int i=0; i<n; i++){
+            low = Math.max(low, nums[i]);
+            high+= nums[i];
         }
         while(low<=high){
-            int mid = (low + high)/2;
-            if(isPossible(nums, k, mid) <= k){
-                high = mid-1;
-            }else{
-                low = mid+1;
-            }
+            int mid = (low+high)/2;
+            if(isPossible(nums, k, mid)) high = mid-1;
+            else low = mid+1;
         }
         return low;
     }
